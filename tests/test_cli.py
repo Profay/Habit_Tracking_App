@@ -19,10 +19,10 @@ from datetime import datetime, timedelta
 from pathlib import Path
 
 # Import the components we're testing
-from cli import CLIInterface, CLIArgumentParser
-from habitmanager import HabitManager
-from habit import Habit, Periodicity
-from functional_analytics import HabitAnalytics
+from habit_tracker.cli import CLIInterface, CLIArgumentParser
+from habit_tracker.habitmanager import HabitManager
+from habit_tracker.habit import Habit, Periodicity
+from habit_tracker.functional_analytics import HabitAnalytics
 
 class TestCLIArgumentParser:
     """Test the CLI argument parser."""

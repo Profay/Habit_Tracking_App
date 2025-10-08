@@ -6,7 +6,7 @@ import os
 import shutil
 from datetime import datetime
 from pathlib import Path
-from habit import Habit, Periodicity
+from habit_tracker.habit import Habit, Periodicity
 
 class StorageHandler(ABC):
     """

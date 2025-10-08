@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from functools import reduce, partial
 from dataclasses import dataclass
 from enum import Enum
-from habit import Habit, Periodicity
+from habit_tracker.habit import Habit, Periodicity
 
 # Type aliases for better readability
 HabitList = List[Habit]

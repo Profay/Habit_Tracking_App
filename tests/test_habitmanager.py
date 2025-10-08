@@ -24,14 +24,14 @@ from pathlib import Path
 from datetime import datetime, timedelta
 from unittest.mock import MagicMock, patch, mock_open, call
 
-from habitmanager import (
+from habit_tracker.habitmanager import (
     HabitManager, 
     create_habit_manager, 
     migrate_storage
 )
-from habit import Habit, Periodicity
-from storage_handler import StorageError, StorageFactory
-from functional_analytics import HabitAnalytics
+from habit_tracker.habit import Habit, Periodicity
+from habit_tracker.storage_handler import StorageError, StorageFactory
+from habit_tracker.functional_analytics import HabitAnalytics
 
 class TestHabitManagerInitialization:
     """Test HabitManager initialization."""

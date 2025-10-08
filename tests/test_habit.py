@@ -17,7 +17,7 @@ This test suite covers:
 import pytest
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
-from habit import Habit, Periodicity
+from habit_tracker.habit import Habit, Periodicity
 
 class TestPeriodicity:
     """Test the Periodicity enum."""

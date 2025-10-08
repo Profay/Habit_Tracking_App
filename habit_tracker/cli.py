@@ -4,9 +4,9 @@ import sys
 import argparse
 from typing import Dict, List, Optional, Any, Callable
 from datetime import datetime, timedelta
-from habitmanager import HabitManager
-from habit import Periodicity
-from functional_analytics import HabitAnalytics
+from habit_tracker.habitmanager import HabitManager
+from habit_tracker.habit import Periodicity
+from habit_tracker.functional_analytics import HabitAnalytics
 import json
 
 class CLIInterface:

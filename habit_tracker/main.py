@@ -9,8 +9,8 @@ It initializes the necessary components and starts the CLI interface.
 """
 
 import sys
-from cli import CLIInterface
-from habitmanager import HabitManager
+from habit_tracker.cli import CLIInterface
+from habit_tracker.habitmanager import HabitManager
 
 def main():
     """Main function to start the habit tracker application."""

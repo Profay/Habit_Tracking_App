@@ -25,14 +25,14 @@ from pathlib import Path
 from datetime import datetime, timedelta
 from unittest.mock import MagicMock, patch, mock_open, call
 
-from storage_handler import (
+from habit_tracker.storage_handler import (
     StorageHandler,
     JSONStorageHandler,
     SQLiteStorageHandler,
     StorageFactory,
     StorageError
 )
-from habit import Habit, Periodicity
+from habit_tracker.habit import Habit, Periodicity
 
 class TestStorageError:
     """Test the StorageError exception."""
