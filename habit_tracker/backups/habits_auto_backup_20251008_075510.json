@@ -1,0 +1,18 @@
+{
+  "habits": {
+    "exercise": {
+      "name": "exercise",
+      "description": "\"30 min workout\"",
+      "periodicity": "daily",
+      "creation_date": "2025-10-08T07:52:51.900490",
+      "completion_history": []
+    }
+  },
+  "metadata": {
+    "version": "1.0",
+    "created": "2025-10-08T07:50:48.611765",
+    "last_modified": "2025-10-08T07:52:51.900677",
+    "total_habits": 1,
+    "total_completions": 0
+  }
+}
