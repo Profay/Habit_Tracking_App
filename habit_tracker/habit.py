@@ -87,72 +87,39 @@ class Habit:
         return False
     
 
-
-    def calculate_current_streak(self) -> int:
+    def calculate_current_streak(self, current_date: Optional[datetime] = None) -> int:
         """
-        Calculate the current streak of consecutive completions.
-        The streak is broken if a required completion was missed.
+        Calculate the current streak of consecutive completed periods.
+        
+        Args:
+            current_date: The date to calculate streak from (defaults to now)
+        
+        Returns:
+            int: Number of consecutive periods completed
         """
         if not self.completion_history:
             return 0
-
-        # Sort completions in descending order (most recent first)
-        sorted_completions = sorted(self.completion_history, reverse=True)
-        last_completion = sorted_completions[0]
         
-        now_date = datetime.now().date()
-        last_completion_date = last_completion.date()
-
-        # 1. First, check if the streak is already broken.
-        # If it is, the current streak is 0.
-        if self.periodicity == Periodicity.DAILY:
-            # A daily streak is broken if more than 1 day has passed.
-            if (now_date - last_completion_date).days > 1:
-                return 0
-        elif self.periodicity == Periodicity.WEEKLY:
-            # A weekly streak is broken if the last completion was before the current week.
-            last_monday = now_date - timedelta(days=now_date.weekday())
-            if last_completion_date < last_monday:
-                return 0
-        elif self.periodicity == Periodicity.MONTHLY:
-            # A monthly streak is broken if the last completion was in a previous month.
-            if last_completion_date.month < now_date.month or last_completion_date.year < now_date.year:
-                return 0
-        elif self.periodicity == Periodicity.YEARLY:
-            # A yearly streak is broken if the last completion was in a previous year.
-            if last_completion_date.year < now_date.year:
-                return 0
-
-        # 2. If the streak is active, calculate its length by counting backward.
-        streak = 1
-        current_check_date = last_completion_date
-
-        # Create a set of completion dates for efficient lookup
-        completion_dates = {c.date() for c in self.completion_history}
-
-        while True:
-            # Calculate the previous expected completion date
-            if self.periodicity == Periodicity.DAILY:
-                prev_date = current_check_date - timedelta(days=1)
-            elif self.periodicity == Periodicity.WEEKLY:
-                prev_date = current_check_date - timedelta(weeks=1)
-            elif self.periodicity == Periodicity.MONTHLY:
-                # Correctly handle month rollovers
-                if current_check_date.month == 1:
-                    prev_date = current_check_date.replace(year=current_check_date.year - 1, month=12)
-                else:
-                    prev_date = current_check_date.replace(month=current_check_date.month - 1)
-            elif self.periodicity == Periodicity.YEARLY:
-                prev_date = current_check_date.replace(year=current_check_date.year - 1)
-            else:
-                break # Should not happen
-
-            if prev_date in completion_dates:
+        # Use provided date or current date
+        if current_date is None:
+            current_date = datetime.now()
+        
+        # Sort completions in descending order
+        sorted_completions = sorted(self.completion_history, reverse=True)
+        
+        streak = 0
+        current_period_start = self._get_period_start(current_date)
+        
+        for completion in sorted_completions:
+            completion_period_start = self._get_period_start(completion)
+            
+            if completion_period_start == current_period_start:
                 streak += 1
-                current_check_date = prev_date
-            else:
+                current_period_start = self._get_previous_period_start(current_period_start)
+            elif completion_period_start < current_period_start:
+                # Found a gap, streak is broken
                 break
-
+        
         return streak
     
     def calculate_longest_streak(self) -> int:
