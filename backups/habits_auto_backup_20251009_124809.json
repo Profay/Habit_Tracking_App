@@ -1,0 +1,32 @@
+{
+  "habits": {
+    "TestExercise": {
+      "name": "TestExercise",
+      "description": "Test",
+      "periodicity": "daily",
+      "creation_date": "2025-10-09T12:48:09.202007",
+      "completion_history": [
+        "2025-10-07T12:48:09.208127",
+        "2025-10-08T12:48:09.206982",
+        "2025-10-09T12:48:09.205779"
+      ]
+    },
+    "TestRead": {
+      "name": "TestRead",
+      "description": "Test",
+      "periodicity": "daily",
+      "creation_date": "2025-10-09T12:48:09.204717",
+      "completion_history": [
+        "2025-10-08T12:48:09.206982",
+        "2025-10-09T12:48:09.205779"
+      ]
+    }
+  },
+  "metadata": {
+    "version": "1.0",
+    "created": "2025-10-09T12:48:09.201389",
+    "last_modified": "2025-10-09T12:48:09.208205",
+    "total_habits": 2,
+    "total_completions": 5
+  }
+}

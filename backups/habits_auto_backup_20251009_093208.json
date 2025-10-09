@@ -1,0 +1,25 @@
+{
+  "habits": {
+    "Exercise": {
+      "name": "Exercise",
+      "description": "Test",
+      "periodicity": "daily",
+      "creation_date": "2025-10-09T09:32:08.680409",
+      "completion_history": []
+    },
+    "Read": {
+      "name": "Read",
+      "description": "Test",
+      "periodicity": "daily",
+      "creation_date": "2025-10-09T09:32:08.681429",
+      "completion_history": []
+    }
+  },
+  "metadata": {
+    "version": "1.0",
+    "created": "2025-10-09T09:32:08.679508",
+    "last_modified": "2025-10-09T09:32:08.681679",
+    "total_habits": 2,
+    "total_completions": 0
+  }
+}
