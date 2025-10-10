@@ -100,6 +100,7 @@ class HabitManager:
         Raises:
             ValueError: If habit with same name already exists
         """
+        name.islower()
         if name in self.habits:
             raise ValueError(f"Habit '{name}' already exists")
         
@@ -515,6 +516,7 @@ class HabitManager:
         
         if created_count > 0:
             self.save_data()
+            self.load_data()
             print(f"Created {created_count} predefined habits with sample data.")
     
     def _generate_sample_completions(self, periodicity: Periodicity, days: int) -> List[datetime]:
@@ -587,7 +589,50 @@ class HabitManager:
             'warnings': warnings,
             'total_habits': len(self.habits)
         }
-    
+
+    # ==================== MENU ====================
+    @staticmethod
+    def get_menu_text() -> str:
+        """Get comprehensive help text for all available commands."""
+        return """
+📋 Main Menu:
+────────────────────────────────────────────────────────────
+Habit Management:
+  create <name> <periodicity> [description]  - Create new habit
+  delete <name>                               - Delete habit
+  update <name> <property> <value>            - Update habit
+  complete <name> [date]                      - Mark complete
+  undo <name> <date>                          - Undo completion
+
+Viewing Habits:
+  list [periodicity]                          - List habits
+  status <name>                               - Habit status
+
+Analytics:
+  analytics <type>                            - View analytics
+  streaks                                     - Show current streaks
+  longest [name]                              - Show longest streak
+  broken                                      - Show broken habits
+  struggling [threshold]                      - Show struggling habits
+  compare <habit1> <habit2> [...]             - Compare habits
+  rankings                                    - Show rankings
+
+Data Management:
+  backup [path]                               - Create backup
+  restore <path>                              - Restore backup
+  export <path> <format>                      - Export data
+  preload                                     - Load sample data
+  stats                                       - Show statistics
+  validate                                    - Validate data
+
+Utility:
+  menu                                        - Show menu
+  help                                        - Show help
+  examples                                    - Show examples
+  exit                                        - Exit program
+────────────────────────────────────────────────────────────
+        """
+
     # ==================== HELP AND DOCUMENTATION ====================
     
     @staticmethod

@@ -1,5 +1,16 @@
 {
   "habits": {
+    "exercise": {
+      "name": "exercise",
+      "description": "\"45 minutes workout\"",
+      "periodicity": "daily",
+      "creation_date": "2025-10-09T14:11:17.791152",
+      "completion_history": [
+        "2024-01-15T00:00:00",
+        "2025-10-09T14:11:27.557593",
+        "2025-10-10T12:04:14.807960"
+      ]
+    },
     "Drink Water": {
       "name": "Drink Water",
       "description": "Drink 8 glasses of water daily",
@@ -100,8 +111,8 @@
   "metadata": {
     "version": "1.0",
     "created": "2025-10-08T09:32:56.208317",
-    "last_modified": "2025-10-10T14:07:46.239776",
-    "total_habits": 5,
-    "total_completions": 58
+    "last_modified": "2025-10-10T12:49:04.919293",
+    "total_habits": 6,
+    "total_completions": 61
   }
 }

@@ -95,13 +95,20 @@
       "periodicity": "weekly",
       "creation_date": "2025-10-10T12:49:04.919173",
       "completion_history": []
+    },
+    "exercise": {
+      "name": "exercise",
+      "description": "\"30 minutes workout\"",
+      "periodicity": "daily",
+      "creation_date": "2025-10-10T14:02:21.784101",
+      "completion_history": []
     }
   },
   "metadata": {
     "version": "1.0",
     "created": "2025-10-08T09:32:56.208317",
-    "last_modified": "2025-10-10T14:07:46.239776",
-    "total_habits": 5,
+    "last_modified": "2025-10-10T14:02:21.784359",
+    "total_habits": 6,
     "total_completions": 58
   }
 }

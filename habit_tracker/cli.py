@@ -77,7 +77,7 @@ class CLIInterface:
         while self.running:
             try:
                 #self._print_menu()
-                command = input("\nEnter command (or 'help'): ").strip().lower()
+                command = input("\nEnter command ('menu' or 'help'): ").strip().lower()
                 
                 if not command:
                     continue
@@ -495,6 +495,10 @@ class CLIInterface:
                 print(f"  - {issue}")
 
     # --- Utility ---
+
+    def cmd_menu(self, args: List[str]) -> None:
+        """Show menu information."""
+        print(self.manager.get_menu_text())
     
     def cmd_help(self, args: List[str]) -> None:
         """Show help information."""
@@ -632,6 +636,7 @@ Data Management:
   validate                                    - Validate data
 
 Utility:
+  menu                                        - Show menu
   help                                        - Show help
   examples                                    - Show examples
   exit                                        - Exit program
