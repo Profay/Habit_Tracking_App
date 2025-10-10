@@ -653,3 +653,4 @@ class AnalyticsPresets:
             ),
             'total_completions': FunctionalAnalytics.get_total_completions(habits)
         }
+    

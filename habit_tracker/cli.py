@@ -8,6 +8,7 @@ from habitmanager import HabitManager
 from habit import Periodicity
 from functional_analytics import HabitAnalytics
 import json
+import os
 
 class CLIInterface:
     """
@@ -31,18 +32,38 @@ class CLIInterface:
     def _register_commands(self) -> Dict[str, Callable]:
         """Register all available commands."""
         return {
+            # Habit Management
             'create': self.cmd_create,
             'delete': self.cmd_delete,
+            'update': self.cmd_update,
             'complete': self.cmd_complete,
+            'undo': self.cmd_undo,
+            
+            # Viewing Habits
             'list': self.cmd_list,
+            'status': self.cmd_status,
+            
+            # Analytics
             'analytics': self.cmd_analytics,
             'streaks': self.cmd_streaks,
             'longest': self.cmd_longest,
-            'status': self.cmd_status,
             'broken': self.cmd_broken,
-            'preload': self.cmd_preload,
+            'struggling': self.cmd_struggling,
+            'compare': self.cmd_compare,
+            'rankings': self.cmd_rankings,
+            
+            # Data Management
             'backup': self.cmd_backup,
+            'restore': self.cmd_restore,
+            'export': self.cmd_export,
+            'preload': self.cmd_preload,
+            'stats': self.cmd_stats,
+            'validate': self.cmd_validate,
+            
+            # Utility
+            'menu': self.cmd_menu,
             'help': self.cmd_help,
+            'examples': self.cmd_examples,
             'exit': self.cmd_exit,
             'quit': self.cmd_exit
         }
@@ -55,7 +76,7 @@ class CLIInterface:
         
         while self.running:
             try:
-                self._print_menu()
+                #self._print_menu()
                 command = input("\nEnter command (or 'help'): ").strip().lower()
                 
                 if not command:
@@ -97,6 +118,8 @@ class CLIInterface:
     
     # ==================== COMMAND IMPLEMENTATIONS ====================
     
+    # --- Habit Management ---
+    
     def cmd_create(self, args: List[str]) -> None:
         """Create a new habit."""
         if len(args) < 2:
@@ -116,7 +139,7 @@ class CLIInterface:
         except ValueError as e:
             print(f"❌ Error: {e}")
             print("Valid periodicities: daily, weekly, monthly, yearly")
-    
+
     def cmd_delete(self, args: List[str]) -> None:
         """Delete a habit."""
         if len(args) < 1:
@@ -128,7 +151,53 @@ class CLIInterface:
             print(f"✅ Deleted habit: {name}")
         else:
             print(f"❌ Habit not found: {name}")
-    
+
+    # In cli.py, inside the CLIInterface class
+
+    def cmd_update(self, args: List[str]) -> None:
+        """Update a habit's properties."""
+        if len(args) < 3:
+            print("❌ Usage: update <name> <property> <value>")
+            print("Example: update Exercise description \"45 min workout\"")
+            print("Example: update Exercise periodicity daily")
+            return
+
+        name = args[0]
+        property_key = args[1].lower()
+        
+        # Rejoin all remaining arguments to form the full value string
+        # This correctly handles values with spaces, like "45 min workout"
+        property_value = " ".join(args[2:])
+
+        # 1. Validate the property key
+        if property_key not in ['description', 'periodicity']:
+            print(f"❌ Cannot update property: '{property_key}'. Only 'description' or 'periodicity' are allowed.")
+            return
+
+        update_kwargs = {property_key: property_value}
+        
+        # 2. Handle potential ValueError from Periodicity creation
+        try:
+            if self.manager.update_habit(name, **update_kwargs):
+                print(f"✅ Updated habit '{name}'. Set {property_key} to '{property_value}'")
+            else:
+                print(f"❌ Habit not found: {name}")
+
+        except ValueError as e:
+            # This catches errors primarily when updating periodicity with an invalid string
+            if 'periodicity' in update_kwargs:
+                print(f"❌ Error updating periodicity: {e}")
+                print("Valid periodicities: daily, weekly, monthly, yearly")
+            else:
+                print(f"❌ Error: {e}") # Generic error catch
+            
+            name, property, value = args[0], args[1].lower(), " ".join(args[2:])
+            
+            if self.manager.update_habit(name, property, value):
+                print(f"✅ Updated '{property}' for habit '{name}' to '{value}'.")
+            else:
+                print(f"❌ Failed to update. Check if habit exists and property is valid.")
+
     def cmd_complete(self, args: List[str]) -> None:
         """Mark a habit as completed."""
         if len(args) < 1:
@@ -152,6 +221,25 @@ class CLIInterface:
             print(f"✅ Completed habit: {name}{time_str}")
         else:
             print(f"❌ Habit not found: {name}")
+
+    def cmd_undo(self, args: List[str]) -> None:
+        """Undo a habit completion."""
+        if len(args) < 2:
+            print("❌ Usage: undo <name> <date>")
+            print("Example: undo Exercise 2024-01-15")
+            return
+        
+        name, date_str = args[0], args[1]
+        try:
+            undo_date = datetime.strptime(date_str, "%Y-%m-%d")
+            if self.manager.undo_completion(name, undo_date):
+                print(f"✅ Undid completion for '{name}' on {date_str}.")
+            else:
+                print(f"❌ No completion found for '{name}' on {date_str}.")
+        except ValueError:
+            print("❌ Invalid date format. Use YYYY-MM-DD")
+
+    # --- Viewing Habits ---
     
     def cmd_list(self, args: List[str]) -> None:
         """List habits."""
@@ -189,61 +277,7 @@ class CLIInterface:
             print(f"   Last Completion: {last_completion.strftime('%Y-%m-%d') if isinstance(last_completion, datetime) else last_completion}")
             print(f"   Description: {habit.description}")
             print()
-    
-    def cmd_analytics(self, args: List[str]) -> None:
-        """Run analytics reports."""
-        if not args:
-            print("❌ Usage: analytics <type>")
-            print("Available types: daily, weekly, monthly")
-            return
-        
-        analytics_type = args[0].lower()
-        
-        if analytics_type == "daily":
-            self._show_daily_overview()
-        elif analytics_type == "weekly":
-            self._show_weekly_report()
-        elif analytics_type == "monthly":
-            self._show_monthly_analysis()
-        else:
-            print("❌ Invalid analytics type. Use: daily, weekly, monthly")
-    
-    def cmd_streaks(self, args: List[str]) -> None:
-        """Show current streaks for all habits."""
-        streaks = self.manager.get_active_streaks()
-        
-        if not streaks:
-            print("🔥 No active streaks found.")
-            return
-        
-        print("\n🔥 Current Streaks:")
-        print("─" * 40)
-        
-        # Sort by streak length
-        streaks.sort(key=lambda x: x[1], reverse=True)
-        
-        for habit_name, streak in streaks:
-            habit = self.manager.get_habit(habit_name)
-            status = "🔥" if streak > 0 else "❌"
-            print(f"{status} {habit_name}: {streak} {'day' if streak == 1 else 'days'}")
-    
-    def cmd_longest(self, args: List[str]) -> None:
-        """Show longest streak."""
-        if args:
-            # Longest streak for specific habit
-            habit_name = args[0]
-            longest = self.manager.get_longest_streak_for_habit(habit_name)
-            print(f"\n🏆 Longest streak for '{habit_name}': {longest} {'day' if longest == 1 else 'days'}")
-        else:
-            # Longest streak across all habits
-            longest, habit = self.manager.get_longest_streak_all()
-            if habit:
-                print(f"\n🏆 Longest streak overall: {longest} {'day' if longest == 1 else 'days'}")
-                print(f"   Habit: {habit.name}")
-                print(f"   Periodicity: {habit.periodicity.value}")
-            else:
-                print("\n📝 No habits found.")
-    
+
     def cmd_status(self, args: List[str]) -> None:
         """Show detailed status of a specific habit."""
         if len(args) < 1:
@@ -273,7 +307,63 @@ class CLIInterface:
         print(f"Status: {'🟢 Active' if not analytics.is_broken else '🔴 Broken'}")
         if analytics.last_completion:
             print(f"Last Completion: {analytics.last_completion.strftime('%Y-%m-%d %H:%M')}")
+
+    # --- Analytics ---
     
+    def cmd_analytics(self, args: List[str]) -> None:
+        """Run analytics reports."""
+        if not args:
+            print("❌ Usage: analytics <type>")
+            print("Available types: daily, weekly, monthly")
+            return
+        
+        analytics_type = args[0].lower()
+        
+        if analytics_type == "daily":
+            self._show_daily_overview()
+        elif analytics_type == "weekly":
+            self._show_weekly_report()
+        elif analytics_type == "monthly":
+            self._show_monthly_analysis()
+        else:
+            print("❌ Invalid analytics type. Use: daily, weekly, monthly")
+
+    def cmd_streaks(self, args: List[str]) -> None:
+        """Show current streaks for all habits."""
+        streaks = self.manager.get_active_streaks()
+        
+        if not streaks:
+            print("🔥 No active streaks found.")
+            return
+        
+        print("\n🔥 Current Streaks:")
+        print("─" * 40)
+        
+        # Sort by streak length
+        streaks.sort(key=lambda x: x[1], reverse=True)
+        
+        for habit_name, streak in streaks:
+            habit = self.manager.get_habit(habit_name)
+            status = "🔥" if streak > 0 else "❌"
+            print(f"{status} {habit_name}: {streak} {'day' if streak == 1 else 'days'}")
+
+    def cmd_longest(self, args: List[str]) -> None:
+        """Show longest streak."""
+        if args:
+            # Longest streak for specific habit
+            habit_name = args[0]
+            longest = self.manager.get_longest_streak_for_habit(habit_name)
+            print(f"\n🏆 Longest streak for '{habit_name}': {longest} {'day' if longest == 1 else 'days'}")
+        else:
+            # Longest streak across all habits
+            longest, habit = self.manager.get_longest_streak_all()
+            if habit:
+                print(f"\n🏆 Longest streak overall: {longest} {'day' if longest == 1 else 'days'}")
+                print(f"   Habit: {habit.name}")
+                print(f"   Periodicity: {habit.periodicity.value}")
+            else:
+                print("\n📝 No habits found.")
+
     def cmd_broken(self, args: List[str]) -> None:
         """Show broken habits."""
         broken = self.manager.get_broken_habits()
@@ -289,24 +379,131 @@ class CLIInterface:
             habit = self.manager.get_habit(habit_name)
             print(f"❌ {habit_name} ({habit.periodicity.value})")
             print(f"   Missed period: {self._get_missed_period_info(habit)}")
+
+    def cmd_struggling(self, args: List[str]) -> None:
+        """Show habits with low completion rates."""
+        threshold = float(args[0]) if args else 50.0
+        struggling = self.manager.get_struggling_habits(threshold)
+        
+        if not struggling:
+            print(f"✅ No habits struggling below {threshold}% completion rate.")
+            return
+        
+        print(f"\n📉 Struggling Habits (< {threshold}% completion):")
+        print("─" * 50)
+        for name, rate in struggling:
+            print(f"📉 {name}: {rate:.1f}%")
+
+    def cmd_compare(self, args: List[str]) -> None:
+        """Compare multiple habits side by side."""
+        if len(args) < 2:
+            print("❌ Usage: compare <habit1> <habit2> [...]")
+            return
+        
+        comparison_data = self.manager.compare_habits(args)
+        if not comparison_data:
+            print("❌ Could not perform comparison. Check if habits exist.")
+            return
+            
+        print("\n📊 Habit Comparison:")
+        print("─" * 70)
+        headers = ["Metric"] + args
+        print(f"{headers[0]:<20} | {headers[1]:<15} | {headers[2]:<15}")
+        print("─" * 70)
+        for metric, values in comparison_data.items():
+            print(f"{metric:<20} | {str(values[0]):<15} | {str(values[1]):<15}")
+
+    def cmd_rankings(self, args: List[str]) -> None:
+        """Show habit rankings by various metrics."""
+        rankings = self.manager.get_habit_rankings()
+        if not rankings:
+            print("📝 No habits to rank.")
+            return
+            
+        print("\n🏆 Habit Rankings:")
+        print("─" * 40)
+        for metric, habit_list in rankings.items():
+            print(f"\n📈 {metric.capitalize()}:")
+            for i, (name, value) in enumerate(habit_list, 1):
+                print(f"  {i}. {name}: {value}")
+
+    # --- Data Management ---
     
+    def cmd_backup(self, args: List[str]) -> None:
+        """Create a backup of habit data."""
+        path = args[0] if args else None
+        if self.manager.backup_data(path):
+            backup_path = path if path else "default backup location"
+            print(f"✅ Backup created successfully at {backup_path}!")
+        else:
+            print("❌ Failed to create backup.")
+
+    def cmd_restore(self, args: List[str]) -> None:
+        """Restore data from backup."""
+        if not args:
+            print("❌ Usage: restore <path>")
+            return
+        
+        path = args[0]
+        if not os.path.exists(path):
+            print(f"❌ Backup file not found: {path}")
+            return
+            
+        if self.manager.restore_data(path):
+            print(f"✅ Data restored successfully from {path}!")
+        else:
+            print(f"❌ Failed to restore data from {path}.")
+
+    def cmd_export(self, args: List[str]) -> None:
+        """Export data to JSON or CSV."""
+        if len(args) < 2:
+            print("❌ Usage: export <path> <format>")
+            return
+        
+        path, format_type = args[0], args[1].lower()
+        if format_type not in ['json', 'csv']:
+            print("❌ Invalid format. Use 'json' or 'csv'.")
+            return
+            
+        if self.manager.export_data(path, format_type):
+            print(f"✅ Data exported to {path} in {format_type.upper()} format.")
+        else:
+            print(f"❌ Failed to export data.")
+
     def cmd_preload(self, args: List[str]) -> None:
         """Load predefined habits with sample data."""
         self.manager.create_predefined_habits()
         print("✅ Predefined habits loaded with sample data!")
         print("   Use 'list' to see all habits.")
-    
-    def cmd_backup(self, args: List[str]) -> None:
-        """Create a backup of habit data."""
-        if self.manager.backup_data():
-            print("✅ Backup created successfully!")
+
+    def cmd_stats(self, args: List[str]) -> None:
+        """Show comprehensive statistics."""
+        stats = self.manager.get_statistics()
+        print("\n📊 Comprehensive Statistics:")
+        print("─" * 40)
+        for key, value in stats.items():
+            print(f"{key.replace('_', ' ').capitalize()}: {value}")
+
+    def cmd_validate(self, args: List[str]) -> None:
+        """Validate data integrity."""
+        issues = self.manager.validate_data_integrity()
+        if not issues:
+            print("✅ All data is valid!")
         else:
-            print("❌ Failed to create backup.")
+            print("❌ Data integrity issues found:")
+            for issue in issues:
+                print(f"  - {issue}")
+
+    # --- Utility ---
     
     def cmd_help(self, args: List[str]) -> None:
         """Show help information."""
         print(self.manager.get_help_text())
-    
+
+    def cmd_examples(self, args: List[str]) -> None:
+        """Show example commands."""
+        print(self.manager.get_command_examples())
+
     def cmd_exit(self, args: List[str]) -> None:
         """Exit the application."""
         print("\n👋 Goodbye! Keep tracking those habits!")
@@ -406,19 +603,38 @@ class CLIInterface:
         print("""
 📋 Main Menu:
 ────────────────────────────────────────────────────────────
-1. create <name> <periodicity> [description]  - Create new habit
-2. delete <name>                               - Delete habit
-3. complete <name> [date]                      - Mark habit complete
-4. list [periodicity]                          - List habits
-5. analytics <type>                            - View analytics
-6. streaks                                     - Show current streaks
-7. longest [name]                              - Show longest streak
-8. status <name>                               - Habit status report
-9. broken                                      - Show broken habits
-10. preload                                    - Load sample data
-11. backup                                     - Create backup
-12. help                                        - Show help
-13. exit                                        - Exit program
+Habit Management:
+  create <name> <periodicity> [description]  - Create new habit
+  delete <name>                               - Delete habit
+  update <name> <property> <value>            - Update habit
+  complete <name> [date]                      - Mark complete
+  undo <name> <date>                          - Undo completion
+
+Viewing Habits:
+  list [periodicity]                          - List habits
+  status <name>                               - Habit status
+
+Analytics:
+  analytics <type>                            - View analytics
+  streaks                                     - Show current streaks
+  longest [name]                              - Show longest streak
+  broken                                      - Show broken habits
+  struggling [threshold]                      - Show struggling habits
+  compare <habit1> <habit2> [...]             - Compare habits
+  rankings                                    - Show rankings
+
+Data Management:
+  backup [path]                               - Create backup
+  restore <path>                              - Restore backup
+  export <path> <format>                      - Export data
+  preload                                     - Load sample data
+  stats                                       - Show statistics
+  validate                                    - Validate data
+
+Utility:
+  help                                        - Show help
+  examples                                    - Show examples
+  exit                                        - Exit program
 ────────────────────────────────────────────────────────────
         """)
     
