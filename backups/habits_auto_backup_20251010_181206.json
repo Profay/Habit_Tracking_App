@@ -1,16 +1,5 @@
 {
   "habits": {
-    "exercise": {
-      "name": "exercise",
-      "description": "\"45 minutes workout\"",
-      "periodicity": "daily",
-      "creation_date": "2025-10-09T14:11:17.791152",
-      "completion_history": [
-        "2024-01-15T00:00:00",
-        "2025-10-09T14:11:27.557593",
-        "2025-10-10T12:04:14.807960"
-      ]
-    },
     "Drink Water": {
       "name": "Drink Water",
       "description": "Drink 8 glasses of water daily",
@@ -43,7 +32,7 @@
     },
     "Exercise": {
       "name": "Exercise",
-      "description": "30 minutes of physical activity",
+      "description": "\"45 min workout\"",
       "periodicity": "daily",
       "creation_date": "2025-10-10T12:49:04.916090",
       "completion_history": [
@@ -66,7 +55,8 @@
         "2025-10-06T12:49:04.914729",
         "2025-10-07T12:49:04.914729",
         "2025-10-08T12:49:04.914729",
-        "2025-10-09T12:49:04.914729"
+        "2025-10-09T12:49:04.914729",
+        "2025-10-10T18:11:35.889866"
       ]
     },
     "Read": {
@@ -90,7 +80,8 @@
         "2025-10-06T12:49:04.914754",
         "2025-10-07T12:49:04.914754",
         "2025-10-08T12:49:04.914754",
-        "2025-10-09T12:49:04.914754"
+        "2025-10-09T12:49:04.914754",
+        "2025-10-10T18:05:26.089371"
       ]
     },
     "Weekly Review": {
@@ -111,8 +102,8 @@
   "metadata": {
     "version": "1.0",
     "created": "2025-10-08T09:32:56.208317",
-    "last_modified": "2025-10-10T12:49:04.920044",
-    "total_habits": 6,
-    "total_completions": 61
+    "last_modified": "2025-10-10T18:11:35.896505",
+    "total_habits": 5,
+    "total_completions": 60
   }
 }

@@ -77,7 +77,7 @@ class CLIInterface:
         while self.running:
             try:
                 #self._print_menu()
-                command = input("\nEnter command ('menu' or 'help'): ").strip().lower()
+                command = input("\nEnter command ('menu' or 'help'): ").strip()
                 
                 if not command:
                     continue
@@ -102,7 +102,7 @@ class CLIInterface:
             self.run_interactive()
             return
         
-        command = command_args[0].lower()
+        command = command_args[0].strip().islower()
         args = command_args[1:]
         
         if command in self.commands:
