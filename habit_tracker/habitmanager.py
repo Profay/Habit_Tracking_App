@@ -100,9 +100,8 @@ class HabitManager:
         Raises:
             ValueError: If habit with same name already exists
         """
-        name.islower()
         if name in self.habits:
-            raise ValueError(f"Habit '{name}' already exists")
+            raise NameError(f"Habit '{name}' already exists")
         
         habit = Habit(name, description, periodicity)
         self.habits[name] = habit
@@ -593,7 +592,7 @@ class HabitManager:
     # ==================== MENU ====================
     @staticmethod
     def get_menu_text() -> str:
-        """Get comprehensive help text for all available commands."""
+        """Get comprehensive menu text for all available commands."""
         return """
 📋 Main Menu:
 ────────────────────────────────────────────────────────────
@@ -603,11 +602,9 @@ Habit Management:
   update <name> <property> <value>            - Update habit
   complete <name> [date]                      - Mark complete
   undo <name> <date>                          - Undo completion
-
 Viewing Habits:
   list [periodicity]                          - List habits
   status <name>                               - Habit status
-
 Analytics:
   analytics <type>                            - View analytics
   streaks                                     - Show current streaks
@@ -616,7 +613,6 @@ Analytics:
   struggling [threshold]                      - Show struggling habits
   compare <habit1> <habit2> [...]             - Compare habits
   rankings                                    - Show rankings
-
 Data Management:
   backup [path]                               - Create backup
   restore <path>                              - Restore backup
@@ -624,7 +620,6 @@ Data Management:
   preload                                     - Load sample data
   stats                                       - Show statistics
   validate                                    - Validate data
-
 Utility:
   menu                                        - Show menu
   help                                        - Show help
@@ -640,112 +635,113 @@ Utility:
         """Get comprehensive help text for all available commands."""
         return """
 ╔══════════════════════════════════════════════════════════════╗
-║                    HABIT TRACKER - HELP                       ║
+║                    HABIT TRACKER - HELP                      ║
 ╠══════════════════════════════════════════════════════════════╣
-║ COMMANDS:                                                     ║
-║                                                               ║
-║  HABIT MANAGEMENT:                                            ║
+║ COMMANDS:                                                    ║
+║                                                              ║
+║  HABIT MANAGEMENT:                                           ║
 ║  create <name> <periodicity> [description]                   ║
-║    Create a new habit                                         ║
+║    Create a new habit                                        ║
 ║    Example: create Exercise daily "30 min workout"           ║
-║                                                               ║
+║    Example: create Daily_Routine daily "Routines "           ║
+║                                                              ║
 ║  delete <name>                                               ║
-║    Delete a habit                                             ║
-║    Example: delete Exercise                                   ║
-║                                                               ║
+║    Delete a habit                                            ║
+║    Example: delete Exercise                                  ║
+║                                                              ║
 ║  update <name> <property> <value>                            ║
-║    Update habit properties                                    ║
+║    Update habit properties                                   ║
 ║    Example: update Exercise description "45 min workout"     ║
-║                                                               ║
+║                                                              ║
 ║  complete <name> [date]                                      ║
-║    Mark a habit as completed                                  ║
-║    Example: complete Exercise                                 ║
-║    Example: complete Exercise 2024-01-15                      ║
-║                                                               ║
+║    Mark a habit as completed                                 ║
+║    Example: complete Exercise                                ║
+║    Example: complete Exercise 2024-01-15                     ║
+║                                                              ║
 ║  undo <name> <date>                                          ║
-║    Undo a habit completion                                    ║
-║    Example: undo Exercise 2024-01-15                          ║
-║                                                               ║
-║  VIEWING HABITS:                                              ║
+║    Undo a habit completion                                   ║
+║    Example: undo Exercise 2024-01-15                         ║
+║                                                              ║
+║  VIEWING HABITS:                                             ║
 ║  list [periodicity]                                          ║
-║    List all habits or filter by periodicity                   ║
-║    Example: list                                              ║
-║    Example: list daily                                        ║
-║                                                               ║
+║    List all habits or filter by periodicity                  ║
+║    Example: list                                             ║
+║    Example: list daily                                       ║
+║                                                              ║
 ║  status <name>                                               ║
-║    Show detailed status of a specific habit                   ║
-║    Example: status Exercise                                   ║
-║                                                               ║
-║  ANALYTICS:                                                   ║
+║    Show detailed status of a specific habit                  ║
+║    Example: status Exercise                                  ║
+║                                                              ║
+║  ANALYTICS:                                                  ║
 ║  analytics <type>                                            ║
 ║    Run analytics: daily, weekly, monthly                     ║
-║    Example: analytics daily                                   ║
-║                                                               ║
-║  streaks                                                      ║
-║    Show all habits with their current streaks                 ║
-║                                                               ║
+║    Example: analytics daily                                  ║
+║                                                              ║
+║  streaks                                                     ║
+║    Show all habits with their current streaks                ║
+║                                                              ║
 ║  longest [habit_name]                                        ║
-║    Show longest streak (all habits or specific one)           ║
-║    Example: longest                                           ║
-║    Example: longest Exercise                                  ║
-║                                                               ║
-║  broken                                                       ║
-║    Show all currently broken habits                           ║
-║                                                               ║
+║    Show longest streak (all habits or specific one)          ║
+║    Example: longest                                          ║
+║    Example: longest Exercise                                 ║
+║                                                              ║
+║  broken                                                      ║
+║    Show all currently broken habits                          ║
+║                                                              ║
 ║  struggling [threshold]                                      ║
-║    Show habits with low completion rates                      ║
-║    Example: struggling 50                                     ║
-║                                                               ║
+║    Show habits with low completion rates                     ║
+║    Example: struggling 50                                    ║
+║                                                              ║
 ║  compare <habit1> <habit2> [...]                             ║
-║    Compare multiple habits side by side                       ║
-║    Example: compare Exercise Read Meditation                  ║
-║                                                               ║
-║  rankings                                                     ║
-║    Show habit rankings by various metrics                     ║
-║                                                               ║
-║  DATA MANAGEMENT:                                             ║
-║  backup [path]                                                ║
-║    Create a backup of habit data                              ║
-║    Example: backup                                            ║
-║    Example: backup /path/to/backup.json                       ║
-║                                                               ║
-║  restore <path>                                               ║
-║    Restore data from backup                                   ║
-║    Example: restore backup_20240115.json                      ║
-║                                                               ║
+║    Compare multiple habits side by side                      ║
+║    Example: compare Exercise Read Meditation                 ║
+║                                                              ║
+║  rankings                                                    ║
+║    Show habit rankings by various metrics                    ║
+║                                                              ║
+║  DATA MANAGEMENT:                                            ║
+║  backup [path]                                               ║
+║    Create a backup of habit data                             ║
+║    Example: backup                                           ║
+║    Example: backup /path/to/backup.json                      ║
+║                                                              ║
+║  restore <path>                                              ║
+║    Restore data from backup                                  ║
+║    Example: restore backup_20240115.json                     ║
+║                                                              ║
 ║  export <path> <format>                                      ║
-║    Export data to JSON or CSV                                 ║
-║    Example: export export.json json                           ║
-║    Example: export export.csv csv                             ║
-║                                                               ║
-║  preload                                                      ║
-║    Load predefined habits with sample data                    ║
-║                                                               ║
-║  stats                                                        ║
-║    Show comprehensive statistics                              ║
-║                                                               ║
-║  validate                                                     ║
-║    Validate data integrity                                    ║
-║                                                               ║
-║  help                                                         ║
-║    Show this help message                                     ║
-║                                                               ║
-║  exit                                                         ║
-║    Exit the application                                       ║
-║                                                               ║
-║ PERIODICITY OPTIONS:                                          ║
-║  daily, weekly, monthly, yearly                               ║
-║                                                               ║
-║ DATE FORMAT:                                                  ║
+║    Export data to JSON or CSV                                ║
+║    Example: export export.json json                          ║
+║    Example: export export.csv csv                            ║
+║                                                              ║
+║  preload                                                     ║
+║    Load predefined habits with sample data                   ║
+║                                                              ║
+║  stats                                                       ║
+║    Show comprehensive statistics                             ║
+║                                                              ║
+║  validate                                                    ║
+║    Validate data integrity                                   ║
+║                                                              ║
+║  help                                                        ║
+║    Show this help message                                    ║
+║                                                              ║
+║  exit                                                        ║
+║    Exit the application                                      ║
+║                                                              ║
+║ PERIODICITY OPTIONS:                                         ║
+║  daily, weekly, monthly, yearly                              ║
+║                                                              ║
+║ DATE FORMAT:                                                 ║
 ║  YYYY-MM-DD (e.g., 2024-01-15)                               ║
-║                                                               ║
-║ EXAMPLES:                                                     ║
+║                                                              ║
+║ EXAMPLES:                                                    ║
 ║  > create Exercise daily "30 min workout"                    ║
-║  > complete Exercise                                          ║
-║  > analytics daily                                            ║
-║  > streaks                                                    ║
-║  > backup                                                     ║
-║                                                               ║
+║  > complete Exercise                                         ║
+║  > analytics daily                                           ║
+║  > streaks                                                   ║
+║  > backup                                                    ║
+║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
         """
     
@@ -753,12 +749,12 @@ Utility:
     def get_command_examples() -> str:
         """Get example commands for quick reference."""
         return """
-╔══════════════════════════════════════════════════════════════╗
+╔═══════════════════════════════════════════════════════════════╗
 ║                    QUICK EXAMPLES                             ║
-╠══════════════════════════════════════════════════════════════╣
+╠═══════════════════════════════════════════════════════════════╣
 ║                                                               ║
 ║  Creating habits:                                             ║
-║    > create Exercise daily "30 min workout"                  ║
+║    > create Exercise daily "30 min workout"                   ║
 ║    > create Meditation daily "10 min meditation"              ║
 ║    > create WeeklyReview weekly "Review weekly goals"         ║
 ║                                                               ║
@@ -779,7 +775,7 @@ Utility:
 ║    > export habits.csv csv                                    ║
 ║    > preload                                                  ║
 ║                                                               ║
-╚══════════════════════════════════════════════════════════════╝
+╚═══════════════════════════════════════════════════════════════╝
         """
     
     def __str__(self) -> str:

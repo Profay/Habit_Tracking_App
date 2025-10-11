@@ -27,12 +27,13 @@
         "2025-10-06T12:49:04.914659",
         "2025-10-07T12:49:04.914659",
         "2025-10-08T12:49:04.914659",
-        "2025-10-09T12:49:04.914659"
+        "2025-10-09T12:49:04.914659",
+        "2025-10-11T18:50:16.862033"
       ]
     },
     "Exercise": {
       "name": "Exercise",
-      "description": "30 minutes of physical activity",
+      "description": "\"45 min workout\"",
       "periodicity": "daily",
       "creation_date": "2025-10-10T12:49:04.916090",
       "completion_history": [
@@ -55,7 +56,9 @@
         "2025-10-06T12:49:04.914729",
         "2025-10-07T12:49:04.914729",
         "2025-10-08T12:49:04.914729",
-        "2025-10-09T12:49:04.914729"
+        "2025-10-09T12:49:04.914729",
+        "2025-10-10T18:11:35.889866",
+        "2025-10-11T18:49:44.885176"
       ]
     },
     "Read": {
@@ -79,7 +82,8 @@
         "2025-10-06T12:49:04.914754",
         "2025-10-07T12:49:04.914754",
         "2025-10-08T12:49:04.914754",
-        "2025-10-09T12:49:04.914754"
+        "2025-10-09T12:49:04.914754",
+        "2025-10-10T18:05:26.089371"
       ]
     },
     "Weekly Review": {
@@ -96,19 +100,28 @@
       "creation_date": "2025-10-10T12:49:04.919173",
       "completion_history": []
     },
-    "exercise": {
-      "name": "exercise",
-      "description": "\"30 minutes workout\"",
+    "Daily_Exercise": {
+      "name": "Daily_Exercise",
+      "description": "\"For test case\"",
       "periodicity": "daily",
-      "creation_date": "2025-10-10T14:06:41.516552",
+      "creation_date": "2025-10-11T18:34:55.718788",
       "completion_history": []
+    },
+    "Daily Routine": {
+      "name": "Daily Routine",
+      "description": "\"Just do it\"",
+      "periodicity": "daily",
+      "creation_date": "2025-10-11T18:49:23.943791",
+      "completion_history": [
+        "2025-10-11T18:49:36.237113"
+      ]
     }
   },
   "metadata": {
     "version": "1.0",
     "created": "2025-10-08T09:32:56.208317",
-    "last_modified": "2025-10-10T14:06:41.516884",
-    "total_habits": 6,
-    "total_completions": 58
+    "last_modified": "2025-10-11T18:50:16.867569",
+    "total_habits": 7,
+    "total_completions": 63
   }
 }

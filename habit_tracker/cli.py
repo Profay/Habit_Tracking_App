@@ -127,7 +127,8 @@ class CLIInterface:
             print("Example: create Exercise daily \"30 min workout\"")
             return
         
-        name = args[0]
+        # 1. Replace all underscores with a single space
+        name = args[0].replace('_', ' ')
         periodicity_str = args[1].lower()
         description = " ".join(args[2:]) if len(args) > 2 else f"Track {name}"
         
@@ -146,7 +147,7 @@ class CLIInterface:
             print("❌ Usage: delete <name>")
             return
         
-        name = args[0]
+        name = args[0].replace('_', ' ')
         if self.manager.delete_habit(name):
             print(f"✅ Deleted habit: {name}")
         else:
@@ -162,7 +163,7 @@ class CLIInterface:
             print("Example: update Exercise periodicity daily")
             return
 
-        name = args[0]
+        name = args[0].replace('_', ' ')
         property_key = args[1].lower()
         
         # Rejoin all remaining arguments to form the full value string
@@ -206,7 +207,7 @@ class CLIInterface:
             print("Example: complete Exercise 2024-01-15")
             return
         
-        name = args[0]
+        name = args[0].replace('_', ' ')
         completion_time = None
         
         if len(args) >= 2:
@@ -284,7 +285,7 @@ class CLIInterface:
             print("❌ Usage: status <name>")
             return
         
-        habit_name = args[0]
+        habit_name = args[0].replace('_', ' ')
         analytics = self.manager.get_habit_analytics(habit_name)
         
         if not analytics:
@@ -351,7 +352,7 @@ class CLIInterface:
         """Show longest streak."""
         if args:
             # Longest streak for specific habit
-            habit_name = args[0]
+            habit_name = args[0].replace('_', ' ')
             longest = self.manager.get_longest_streak_for_habit(habit_name)
             print(f"\n🏆 Longest streak for '{habit_name}': {longest} {'day' if longest == 1 else 'days'}")
         else:
@@ -596,9 +597,9 @@ class CLIInterface:
         """Print welcome message."""
         print("""
 ╔══════════════════════════════════════════════════════════════╗
-║              🎯 HABIT TRACKER - CLI INTERFACE                ║
+║            🎯 HABIT TRACKER - CLI INTERFACE 🎯               ║
 ║                                                              ║
-║        Track your habits, build streaks, achieve goals!       ║
+║        Track your habits, build streaks, achieve goals!      ║
 ╚══════════════════════════════════════════════════════════════╝
         """)
     
