@@ -226,20 +226,30 @@ class CLIInterface:
 
     def cmd_undo(self, args: List[str]) -> None:
         """Undo a habit completion."""
-        if len(args) < 2:
-            print("❌ Usage: undo <name> <date>")
+        if len(args) < 1:
+            print("❌ Usage: undo <name> [date]")
+            print("Example: undo Exercise")
             print("Example: undo Exercise 2024-01-15")
             return
         
-        name, date_str = args[0].replace('_', ' '), args[1]
-        try:
-            undo_date = datetime.strptime(date_str, "%Y-%m-%d").replace(hour=0, minute=0, second=0, microsecond=0)
-            if self.manager.undo_completion(name, undo_date):
-                print(f"✅ Undid completion for '{name}' on {date_str}.")
-            else:
-                print(f"❌ No completion found for '{name}' on {date_str}.")
-        except ValueError:
-            print("❌ Invalid date format. Use YYYY-MM-DD")
+        name = args[0].replace('_', ' ')
+        
+        # Use today's date if no date is provided
+        if len(args) == 1:
+            undo_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+            date_str = undo_date.strftime("%Y-%m-%d")
+        else:
+            date_str = args[1]
+            try:
+                undo_date = datetime.strptime(date_str, "%Y-%m-%d").replace(hour=0, minute=0, second=0, microsecond=0)
+            except ValueError:
+                print("❌ Invalid date format. Use YYYY-MM-DD")
+                return
+        
+        if self.manager.undo_completion(name, undo_date):
+            print(f"✅ Undid completion for '{name}' on {date_str}.")
+        else:
+            print(f"❌ No completion found for '{name}' on {date_str}.")
 
     # --- Viewing Habits ---
     
@@ -638,7 +648,7 @@ Habit Management:
   delete <name>                               - Delete habit
   update <name> <property> <value>            - Update habit
   complete <name> [date]                      - Mark complete
-  undo <name> <date>                          - Undo completion
+  undo <name> [date]                          - Undo completion
 
 Viewing Habits:
   list [periodicity]                          - List habits
