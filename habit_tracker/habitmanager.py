@@ -180,6 +180,7 @@ class HabitManager:
         Raises:
             ValueError: If habit already completed for this period
         """
+        completion_time
         habit = self.get_habit(name)
         if habit:
             habit.check_off(completion_time)
@@ -215,6 +216,7 @@ class HabitManager:
         Returns:
             bool: True if successfully undone
         """
+        completion_time.replace(hour=0, minute=0, second=0, microsecond=0)
         habit = self.get_habit(name)
         if habit and completion_time in habit.completion_history:
             habit.completion_history.remove(completion_time)
@@ -521,7 +523,7 @@ class HabitManager:
     def _generate_sample_completions(self, periodicity: Periodicity, days: int) -> List[datetime]:
         """Generate sample completion data for testing."""
         completions = []
-        now = datetime.now()
+        now = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         
         if periodicity == Periodicity.DAILY:
             for i in range(days):
@@ -588,6 +590,33 @@ class HabitManager:
             'warnings': warnings,
             'total_habits': len(self.habits)
         }
+
+    def migrate_completion_history(self) -> None:
+        """
+        One-time migration script to strip time from all existing completion dates.
+        This ensures compatibility with the new date-only undo logic.
+        """
+        print("⏳ Starting data migration...")
+        updated_habits = 0
+        for habit_name, habit in self.habits.items():
+            original_count = len(habit.completion_history)
+            print(original_count)
+            new_history = []
+            seen_dates = set() # Use a set to handle potential duplicates from the same day
+
+            for dt in habit.completion_history:
+                stripped_date = dt.replace(hour=0, minute=0, second=0, microsecond=0)
+                if stripped_date not in seen_dates:
+                    new_history.append(stripped_date)
+                    seen_dates.add(stripped_date)
+
+            habit.completion_history = new_history
+            if len(habit.completion_history) != original_count:
+                print(f"  - Processed '{habit_name}': {original_count} entries -> {len(habit.completion_history)} unique days.")
+                updated_habits += 1
+
+        self.save_data()
+        print(f"✅ Migration complete! Updated {updated_habits} habits. Data has been saved.")
 
     # ==================== MENU ====================
     @staticmethod
@@ -658,7 +687,7 @@ Utility:
 ║    Example: complete Exercise                                ║
 ║    Example: complete Exercise 2024-01-15                     ║
 ║                                                              ║
-║  undo <name> <date>                                          ║
+║  undo <name> [date]                                          ║
 ║    Undo a habit completion                                   ║
 ║    Example: undo Exercise 2024-01-15                         ║
 ║                                                              ║
@@ -756,7 +785,7 @@ Utility:
 ║  Creating habits:                                             ║
 ║    > create Exercise daily "30 min workout"                   ║
 ║    > create Meditation daily "10 min meditation"              ║
-║    > create WeeklyReview weekly "Review weekly goals"         ║
+║    > create Weekly Review weekly "Review weekly goals"        ║
 ║                                                               ║
 ║  Managing habits:                                             ║
 ║    > complete Exercise                                        ║

@@ -59,6 +59,7 @@ class CLIInterface:
             'preload': self.cmd_preload,
             'stats': self.cmd_stats,
             'validate': self.cmd_validate,
+            'migrate': self.cmd_migrate,
             
             # Utility
             'menu': self.cmd_menu,
@@ -230,9 +231,9 @@ class CLIInterface:
             print("Example: undo Exercise 2024-01-15")
             return
         
-        name, date_str = args[0], args[1]
+        name, date_str = args[0].replace('_', ' '), args[1]
         try:
-            undo_date = datetime.strptime(date_str, "%Y-%m-%d")
+            undo_date = datetime.strptime(date_str, "%Y-%m-%d").replace(hour=0, minute=0, second=0, microsecond=0)
             if self.manager.undo_completion(name, undo_date):
                 print(f"✅ Undid completion for '{name}' on {date_str}.")
             else:
@@ -401,14 +402,14 @@ class CLIInterface:
             print("❌ Usage: compare <habit1> <habit2> [...]")
             return
         
-        comparison_data = self.manager.compare_habits(args)
+        comparison_data = self.manager.compare_habits(args.replace('_', ' '))
         if not comparison_data:
             print("❌ Could not perform comparison. Check if habits exist.")
             return
             
         print("\n📊 Habit Comparison:")
         print("─" * 70)
-        headers = ["Metric"] + args
+        headers = ["Metric"] + args.replace('_', ' ')
         print(f"{headers[0]:<20} | {headers[1]:<15} | {headers[2]:<15}")
         print("─" * 70)
         for metric, values in comparison_data.items():
@@ -487,13 +488,37 @@ class CLIInterface:
 
     def cmd_validate(self, args: List[str]) -> None:
         """Validate data integrity."""
-        issues = self.manager.validate_data_integrity()
-        if not issues:
+        validation_result = self.manager.validate_data_integrity()
+        
+        if validation_result['is_valid']:
             print("✅ All data is valid!")
         else:
             print("❌ Data integrity issues found:")
-            for issue in issues:
+            for issue in validation_result['issues']:
                 print(f"  - {issue}")
+        
+        # Always show warnings if any exist
+        if validation_result['warnings']:
+            print("⚠️ Warnings:")
+            for warning in validation_result['warnings']:
+                print(f"  - {warning}")
+        
+        # Show total habits count
+        print(f"📊 Total habits checked: {validation_result['total_habits']}")
+
+
+    def cmd_migrate(self, args: List[str]) -> None:
+        """
+        Migrate old habit data to be compatible with the new date format.
+        This is a one-time operation.
+        """
+        print("This will update all your habit completion dates to a date-only format.")
+        confirmation = input("Are you sure you want to continue? (yes/no): ").lower().strip()
+        
+        if confirmation == 'yes':
+            self.manager.migrate_completion_history()
+        else:
+            print("❌ Migration cancelled.")
 
     # --- Utility ---
 

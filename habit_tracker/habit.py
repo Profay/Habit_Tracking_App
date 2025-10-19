@@ -34,7 +34,7 @@ class Habit:
         self.name = name
         self.description = description
         self.periodicity = periodicity
-        self.creation_date = creation_date or datetime.now()
+        self.creation_date = creation_date or datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         self.completion_history: List[datetime] = []
     
     def check_off(self, completion_time: Optional[datetime] = None) -> None:
@@ -45,8 +45,8 @@ class Habit:
             completion_time: When the habit was completed (defaults to now)
         """
         if completion_time is None:
-            completion_time = datetime.now()
-        
+            completion_time = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
+        print(completion_time)
         # Check if already completed for this period
         if not self._is_already_completed_in_period(completion_time):
             self.completion_history.append(completion_time)
@@ -102,7 +102,7 @@ class Habit:
         
         # Use provided date or current date
         if current_date is None:
-            current_date = datetime.now()
+            current_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         
         # Sort completions in descending order
         sorted_completions = sorted(self.completion_history, reverse=True)
@@ -143,7 +143,7 @@ class Habit:
         
         max_streak = 0
         current_streak = 0
-        expected_period = self._get_period_start(datetime.now())
+        expected_period = self._get_period_start(datetime.now().replace(hour=0, minute=0, second=0, microsecond=0))
         
         for period in sorted_periods:
             if period == expected_period:
@@ -169,7 +169,7 @@ class Habit:
             bool: True if habit is broken
         """
         if check_date is None:
-            check_date = datetime.now()
+            check_date = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         
         if not self.completion_history:
             # If habit was created more than one period ago and never completed
