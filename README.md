@@ -84,32 +84,31 @@ pytest.ini                     # Pytest configuration
 git clone https://github.com/profay/habit_tracking_app.git
 cd habit_tracking_app
 ```
-
-### Install Dependencies
-```bash
-pip install -r requirements.txt
-```
-
-### Development Installation
-```bash
-# Install in development mode
-pip install -e .
-
-# Install test dependencies
-pip install pytest pytest-mock python-dateutil
-```
-
 ### Create Virtual Environment (Recommended)
 ```bash
-python -m venv venv
+sudo apt install python3.12-venv
+python3 -m venv venv
 
 # On Windows
 venv\Scripts\activate
 
 # On macOS/Linux
 source venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip install -r requirements.txt
+```
+### Install Dependencies
+```bash
+python3 -m pip install -r requirements.txt
+```
 
-pip install -r requirements.txt
+### Development Installation
+```bash
+# Install in development mode
+python3 -m pip install -e .
+
+# Install test dependencies
+pip install pytest pytest-mock python-dateutil
 ```
 
 ## 🎮 Usage
@@ -118,33 +117,8 @@ pip install -r requirements.txt
 
 #### Interactive Mode (Default)
 ```bash
-python main.py
+python habit_tracker/main.py
 ```
-
-#### Single Command Mode
-```bash
-# Create a habit
-python main.py create Exercise daily "30 min workout"
-
-# Complete a habit
-python main.py complete Exercise
-
-# View analytics
-python main.py analytics daily
-
-# List all habits
-python main.py list
-```
-
-#### Using Different Storage
-```bash
-# Use SQLite storage
-python main.py --storage sqlite
-
-# Use custom file path
-python main.py --file my_habits.json
-```
-
 ### CLI Commands
 
 #### Habit Management
@@ -248,6 +222,37 @@ help
 # Exit application
 exit
 ```
+
+
+#### Single Command Mode
+```bash
+# Create a habit
+python habit_tracker/main.py create Exercise daily "30 min workout"
+
+# Complete a habit
+python habit_tracker/main.py complete Exercise
+
+# View analytics
+python habit_tracker/main.py analytics daily
+
+# List all habits
+python habit_tracker/main.py list
+```
+## 🧪 Testing
+
+### Run All Tests
+```bash
+pytest
+```
+
+### Run Specific Test Files
+```bash
+pytest tests/test_habit.py
+pytest tests/test_storage_handler.py
+pytest tests/test_functional_analytics.py
+pytest tests/test_habitmanager.py
+pytest tests/test_cli.py
+
 
 ## 🏗️ Components
 
