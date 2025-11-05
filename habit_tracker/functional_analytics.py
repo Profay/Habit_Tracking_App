@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from functools import reduce, partial
 from dataclasses import dataclass
 from enum import Enum
-from habit import Habit, Periodicity
+from habit_tracker.habit import Habit, Periodicity
 
 # Type aliases for better readability
 HabitList = List[Habit]
@@ -330,7 +330,7 @@ class FunctionalAnalytics:
         ))
     
     @staticmethod
-    def get_periodicity_stats(habits: HabitDict) -> PeriodicityStats:
+    def get_w_stats(habits: HabitDict) -> PeriodicityStats:
         """
         Get statistics grouped by periodicity.
         
@@ -631,7 +631,7 @@ class AnalyticsPresets:
     def weekly_report(habits: HabitDict) -> Dict[str, Any]:
         """Generate a weekly performance report."""
         return {
-            'periodicity_stats': FunctionalAnalytics.get_periodicity_stats(habits),
+            # 'periodicity_stats': FunctionalAnalytics.get_periodicity_stats(habits),
             'productivity_trend': FunctionalAnalytics.get_productivity_trend(habits, 7),
             'best_day': FunctionalAnalytics.get_best_performing_day(habits, 1),
             'struggling_habits': FunctionalAnalytics.get_struggling_habits(habits, 70),

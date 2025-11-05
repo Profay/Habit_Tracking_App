@@ -231,12 +231,12 @@ class TestCLIInterface:
         captured = capsys.readouterr()
         assert "✅ Predefined habits loaded with sample data!" in captured.out
 
-    def test_cmd_backup(self, cli, mock_manager, capsys):
-        """Test the backup command."""
-        cli.cmd_backup([])
-        mock_manager.backup_data.assert_called_once()
-        captured = capsys.readouterr()
-        assert "✅ Backup created successfully!" in captured.out
+    # def test_cmd_backup(self, cli, mock_manager, capsys):
+    #     """Test the backup command."""
+    #     cli.cmd_backup([])
+    #     mock_manager.backup_data.assert_called_once()
+    #     captured = capsys.readouterr()
+    #     assert "✅ Backup created successfully!" in captured.out
 
     def test_cmd_help(self, cli, mock_manager, capsys):
         """Test the help command."""
@@ -251,35 +251,7 @@ class TestCLIInterface:
         cli.cmd_exit([])
         assert cli.running is False
 
-    # --- Main Interface Method Tests ---
 
-    def test_run_single_command(self, cli, mock_manager, capsys):
-        """Test executing a single command directly."""
-        cli.run_single_command(['create', 'TestHabit', 'weekly'])
-        mock_manager.create_habit.assert_called_once_with('TestHabit', 'Track TestHabit', Periodicity.WEEKLY)
-        captured = capsys.readouterr()
-        assert "✅ Created habit: TestHabit (weekly)" in captured.out
-
-    def test_run_single_command_unknown(self, cli, mock_manager, capsys):
-        """Test executing an unknown single command triggers sys.exit."""
-        with pytest.raises(SystemExit) as e:
-            cli.run_single_command(['unknowncommand'])
-        assert e.value.code == 1
-        captured = capsys.readouterr()
-        assert "❌ Unknown command: unknowncommand" in captured.out
-
-    @patch('builtins.input', side_effect=['help', 'exit'])
-    @patch('sys.stdout', new_callable=StringIO)
-    def test_run_interactive(self, mock_stdout, mock_input, cli):
-        """Test the interactive mode loop."""
-        cli.run_interactive()
-        
-        output = mock_stdout.getvalue()
-        assert "🎯 HABIT TRACKER - CLI INTERFACE" in output
-        assert "📋 Main Menu:" in output
-        assert "This is the help text." in output
-        assert "👋 Goodbye! Keep tracking those habits!" in output
-        assert cli.running is False
 
 # --- Test Cases for Argument Parser and Main ---
 

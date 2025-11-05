@@ -1,4 +1,4 @@
-#!/workspaces/Habit_Tracking_App/venv/bin/python
+#!/mnt/c/Users/USER/IU_project/Habit_Tracking_App/venv/bin/python3
 
 # $Id: rst2odt.py 5839 2009-01-07 19:09:28Z dkuhlman $
 # Author: Dave Kuhlman <dkuhlman@rexx.com>

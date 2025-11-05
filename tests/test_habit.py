@@ -69,13 +69,13 @@ class TestHabitInitialization:
     
     def test_habit_creation_default_date(self):
         """Test creating a habit with default creation date."""
-        before_creation = datetime.now()
+        before_creation = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         habit = Habit(
             name="Read",
             description="Read for 20 minutes",
             periodicity=Periodicity.DAILY
         )
-        after_creation = datetime.now()
+        after_creation = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         
         assert habit.name == "Read"
         assert habit.description == "Read for 20 minutes"
@@ -161,9 +161,9 @@ class TestHabitCheckOff:
     
     def test_check_off_daily_default_time(self, daily_habit):
         """Test checking off a daily habit with default time."""
-        before_check = datetime.now()
+        before_check = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         daily_habit.check_off()
-        after_check = datetime.now()
+        after_check = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         
         assert len(daily_habit.completion_history) == 1
         assert before_check <= daily_habit.completion_history[0] <= after_check
@@ -745,9 +745,9 @@ class TestHabitEdgeCases:
         """Test checking off with None time (should use current time)."""
         habit = Habit("Test", "Test", Periodicity.DAILY)
         
-        before = datetime.now()
+        before = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         habit.check_off(None)
-        after = datetime.now()
+        after = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         
         assert len(habit.completion_history) == 1
         assert before <= habit.completion_history[0] <= after

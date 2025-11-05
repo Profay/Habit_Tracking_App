@@ -16,15 +16,15 @@ import json
 from pathlib import Path
 
 # Import all components
-from habit import Habit, Periodicity
-from storage_handler import (
+from habit_tracker.habit import Habit, Periodicity
+from habit_tracker.storage_handler import (
     StorageHandler, 
     StorageFactory, 
     StorageError,
     JSONStorageHandler,
     SQLiteStorageHandler
 )
-from functional_analytics import (
+from habit_tracker.functional_analytics import (
     FunctionalAnalytics,
     AnalyticsPresets,
     HabitAnalytics,

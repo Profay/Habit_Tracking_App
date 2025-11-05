@@ -1,4 +1,4 @@
-#!/workspaces/Habit_Tracking_App/venv/bin/python
+#!/mnt/c/Users/USER/IU_project/Habit_Tracking_App/venv/bin/python3
 
 # Author:
 # Contact: grubert@users.sf.net

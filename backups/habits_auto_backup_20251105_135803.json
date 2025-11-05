@@ -1,0 +1,30 @@
+{
+  "habits": {
+    "Exercise": {
+      "name": "Exercise",
+      "description": "30 min workout",
+      "periodicity": "daily",
+      "creation_date": "2024-01-01T00:00:00",
+      "completion_history": [
+        "2024-01-14T00:00:00",
+        "2024-01-15T00:00:00"
+      ]
+    },
+    "Weekly Review": {
+      "name": "Weekly Review",
+      "description": "Review weekly progress",
+      "periodicity": "weekly",
+      "creation_date": "2024-01-01T00:00:00",
+      "completion_history": [
+        "2024-01-15T00:00:00"
+      ]
+    }
+  },
+  "metadata": {
+    "version": "1.0",
+    "created": "2025-11-05T13:58:02.641145",
+    "last_modified": "2025-11-05T13:58:03.821676",
+    "total_habits": 2,
+    "total_completions": 3
+  }
+}
