@@ -419,7 +419,7 @@ class CLIInterface:
             
         print("\n📊 Habit Comparison:")
         print("─" * 70)
-        headers = ["Metric"] + args.replace('_', ' ')
+        headers = ["Metric"] + args
         print(f"{headers[0]:<20} | {headers[1]:<15} | {headers[2]:<15}")
         print("─" * 70)
         for metric, values in comparison_data.items():
