@@ -721,9 +721,9 @@ Utility:
 ║    Show habits with low completion rates                     ║
 ║    Example: struggling 50                                    ║
 ║                                                              ║
-║  compare <habit1> <habit2> [...]                             ║
+║  compare <habit1> <habit2>                                   ║
 ║    Compare multiple habits side by side                      ║
-║    Example: compare Exercise Read Meditation                 ║
+║    Example: compare Exercise Read                            ║
 ║                                                              ║
 ║  rankings                                                    ║
 ║    Show habit rankings by various metrics                    ║
