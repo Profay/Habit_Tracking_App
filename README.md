@@ -96,21 +96,12 @@ venv\Scripts\activate
 
 # On macOS/Linux
 source venv/bin/activate
-python3 -m pip install --upgrade pip
-python3 -m pip install -r requirements.txt
+
 ```
 ### Install Dependencies
 ```bash
+python3 -m pip install --upgrade pip  #optional
 python3 -m pip install -r requirements.txt
-```
-
-### Development Installation
-```bash
-# Install in development mode
-python3 -m pip install -e .
-
-# Install test dependencies
-pip install pytest pytest-mock python-dateutil
 ```
 
 ## 🎮 Usage
@@ -119,7 +110,7 @@ pip install pytest pytest-mock python-dateutil
 
 #### Interactive Mode (Default)
 ```bash
-python habit_tracker/main.py
+python3 main.py
 ```
 ### CLI Commands
 
