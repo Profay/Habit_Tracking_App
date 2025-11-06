@@ -46,7 +46,6 @@ class Habit:
         """
         if completion_time is None:
             completion_time = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
-        print(completion_time)
         # Check if already completed for this period
         if not self._is_already_completed_in_period(completion_time):
             self.completion_history.append(completion_time)
