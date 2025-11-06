@@ -513,6 +513,7 @@ class FunctionalAnalytics:
         comparison = {}
         
         for name in habit_names:
+            name.replace('_', ' ')
             analytics = FunctionalAnalytics.get_habit_analytics(habits, name)
             if analytics:
                 comparison[name] = {

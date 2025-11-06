@@ -412,7 +412,7 @@ class CLIInterface:
             print("❌ Usage: compare <habit1> <habit2> [...]")
             return
         
-        comparison_data = self.manager.compare_habits(args.replace('_', ' '))
+        comparison_data = self.manager.compare_habits(args)
         if not comparison_data:
             print("❌ Could not perform comparison. Check if habits exist.")
             return
