@@ -1,6 +1,72 @@
-### .gitignore
-```gitignore
-backups/
-.pytest_cache/
+
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
+*.py[cod]
+*$py.class
+
+# Environments
+.venv/
 venv/
+env/
+/bin
+/include
+/lib
+/lib64
+/Scripts
+/share
+
+# Distribution / packaging
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+*.egg-info/
+.installed.cfg
+*.mo
+*.pot
+
+# Django artifacts
+*.log
+db.sqlite3
+db.sqlite3-journal
+/media/   # User-uploaded files
+
+# Secrets and Local Configuration
+.env
+.flaskenv
+local_settings.py
+settings_local.py
+config_local.ini
+
+# ----------------------------------------------------------------------
+# IDEs and Editors
+# ----------------------------------------------------------------------
+
+# JetBrains (PyCharm, IntelliJ, etc.)
+.idea/
+
+# Visual Studio Code
+.vscode/
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Emacs
+#*#
+
+# ----------------------------------------------------------------------
+# OS and Temporary Files
+# ----------------------------------------------------------------------
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db

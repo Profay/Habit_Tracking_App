@@ -48,15 +48,15 @@ A comprehensive habit tracking application built with Python 3.7+ that combines 
 ## 📁 Project Structure
 
 ```
+── main.py                    # Application entry point
+
 habit_tracker/
 ├── __init__.py                 # Package initialization
 ├── habit.py                    # Habit class and Periodicity enum
 ├── storage_handler.py          # Storage abstraction layer
 ├── functional_analytics.py     # Analytics module (FP)
 ├── habitmanager.py            # Main application controller
-├── cli.py                     # Command-line interface
-├── main.py                    # Application entry point
-└── README.md                  # This file
+└── cli.py                     # Command-line interface
 
 tests/                         # Test suite
 ├── __init__.py
@@ -65,6 +65,8 @@ tests/                         # Test suite
 ├── test_functional_analytics.py # Analytics tests
 ├── test_habitmanager.py       # Manager tests
 └── test_cli.py                # CLI tests
+
+── README.md                  # This file
 
 
 
@@ -81,8 +83,8 @@ pytest.ini                     # Pytest configuration
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/profay/habit_tracking_app.git
-cd habit_tracking_app
+git clone https://github.com/profay/Habit_Tracking_App.git
+cd Habit_Tracking_App
 ```
 ### Create Virtual Environment (Recommended)
 ```bash
@@ -126,6 +128,7 @@ python habit_tracker/main.py
 # Create a new habit
 create <name> <periodicity> [description]
 Example: create Exercise daily "30 min workout"
+         create Read_Book daily "30 min Reading
 
 # Delete a habit
 delete <name>
@@ -250,7 +253,6 @@ pytest
 pytest tests/test_habit.py
 pytest tests/test_storage_handler.py
 pytest tests/test_functional_analytics.py
-pytest tests/test_habitmanager.py
 pytest tests/test_cli.py
 
 

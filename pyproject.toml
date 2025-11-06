@@ -23,22 +23,5 @@ requires-python = ">=3.12" # Ensure this matches your virtual environment's Pyth
 
 # Add any external packages your app needs to run here!
 dependencies = [
-    # Core Dependencies
-    python-dateutil>=2.8.0,<3.0.0          # Date utilities for habit tracking
-
-    # Database Dependencies (optional - for SQLite support)
-    # sqlite3 is included with Python by default, but listed for clarity
-    # sqlite3>=3.0.0
-
-    # Development and Testing Dependencies
-    pytest>=7.0.0,<8.0.0                    # Testing framework
-    pytest-mock>=3.6.0,<4.0.0               # Mocking support for pytest
-    pytest-cov>=3.0.0,<4.0.0                # Coverage reporting
-    pytest-xdist>=2.5.0,<3.0.0               # Parallel test execution
-
-    # Code Quality and Formatting
-    black>=22.0.0,<24.0.0                    # Code formatter
-    flake8>=4.0.0,<7.0.0                     # Linting and style checking
-    isort>=5.10.0,<6.0.0                     # Import sorting
-    mypy>=1.0.0,<2.0.0                      # Static type checking
+    
 ]
