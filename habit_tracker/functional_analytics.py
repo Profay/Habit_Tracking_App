@@ -504,26 +504,43 @@ class FunctionalAnalytics:
         Compare multiple habits side by side.
         
         Args:
-            habits: Dictionary of habits
-            habit_names: List of habit names to compare
+            habits: Dictionary of all habits.
+            habit_names: List of habit names to compare.
             
         Returns:
-            Dict[str, Any]: Comparison results
+            Dict[str, Any]: Comparison results, keyed by metric name.
         """
-        comparison = {}
-        
+        # Define the metrics we want to compare and how to display them
+        metrics_to_compare = {
+            'current_streak': 'Current Streak',
+            'longest_streak': 'Longest Streak',
+            'completion_rate': 'Completion Rate (%)',
+            'total_completions': 'Total Completions',
+            'is_broken': 'Is Broken'
+        }
+
+        # Initialize the result dictionary with empty lists for each metric
+        comparison = {display_name: [] for display_name in metrics_to_compare.values()}
+
         for name in habit_names:
-            name.replace('_', ' ')
-            analytics = FunctionalAnalytics.get_habit_analytics(habits, name)
+            # Fix: strings are immutable, so we must re-assign the result
+            clean_name = name.replace('_', ' ')
+            
+            analytics = FunctionalAnalytics.get_habit_analytics(habits, clean_name)
+            
             if analytics:
-                comparison[name] = {
-                    'current_streak': analytics.current_streak,
-                    'longest_streak': analytics.longest_streak,
-                    'completion_rate': analytics.completion_rate,
-                    'total_completions': analytics.total_completions,
-                    'is_broken': analytics.is_broken
-                }
-        
+                # If habit exists, add its data to each metric list
+                for key, display_name in metrics_to_compare.items():
+                    value = getattr(analytics, key)
+                    # Format completion rate for better readability
+                    if key == 'completion_rate':
+                        value = f"{value:.1f}%"
+                    comparison[display_name].append(str(value))
+            else:
+                # If habit is not found, add a placeholder to keep lists aligned
+                for display_name in metrics_to_compare.values():
+                    comparison[display_name].append("N/A")
+                    
         return comparison
     
     @staticmethod
